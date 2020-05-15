@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import { List, Header } from 'semantic-ui-react';
 import moment from 'moment';
+import { connect } from 'react-redux';
+import { getAllTodos } from '../../actions/allTodoActions';
 
 class AllTodosList extends Component {
+  componentDidMount() {
+    this.props.getAllTodos();
+  }
+
   render() {
     return (
       <List>
@@ -21,4 +27,11 @@ class AllTodosList extends Component {
   }
 }
 
-export default AllTodosList;
+function mapStateToProps({ todos: { todos, getAllTodosError } }) {
+  return {
+    todos,
+    getAllTodosError
+  }
+}
+
+export default connect(mapStateToProps, { getAllTodos })(AllTodosList);
