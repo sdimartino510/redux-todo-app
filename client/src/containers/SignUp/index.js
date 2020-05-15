@@ -5,11 +5,12 @@ import { email, length, required } from 'redux-form-validators';
 import axios from 'axios';
 
 class SignUp extends Component {
-  renderEmail = formProps => {
-    console.log(formProps);
+  renderEmail = ({ input, meta }) => {
     return (
       <Form.Input
+        { ...input }
         fluid
+        error={ meta.touched && meta.error }
         icon='user'
         iconPosition='left'
         autoComplete='off'
@@ -38,4 +39,21 @@ class SignUp extends Component {
   }
 }
 
-export default reduxForm({ form: 'SignUp' })(SignUp);
+const asyncValidate = async ({ email }) => {
+  try {
+    const { data } = await axios.get('/api/user/emails');
+    const foundEmail = data.some(user => user.email === email);
+    if (foundEmail) {
+      throw new Error();
+    }
+  } catch (e) {
+    // eslint-disable-next-line
+    throw { email: 'That email address is already in use' }
+  }
+}
+
+export default reduxForm({
+  form: 'SignUp',
+  asyncValidate,
+  asyncChangeFields: ['email']
+})(SignUp);
