@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Container, Message, Button } from 'semantic-ui-react';
+
+import { signOut } from '../../actions/authActions';
 
 class SignOut extends Component {
+  componentDidMount() {
+    this.props.signOut();
+  }
+
   render() {
     return (
-      <div>
-
-      </div>
+      <Container>
+        <Message error header='You are logged out' />
+        <Button as={ Link } to='/signin' content='Sign in again' />
+      </Container>
     );
   }
 }
 
-export default SignOut;
+export default connect(null, { signOut })(SignOut);
