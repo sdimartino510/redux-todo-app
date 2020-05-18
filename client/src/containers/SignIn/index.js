@@ -3,9 +3,9 @@ import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { Form, Segment, Button } from 'semantic-ui-react';
 import { email, required } from 'redux-form-validators';
 import axios from 'axios';
-import { invalid } from 'moment';
+// import { invalid } from 'moment';
 
-import { AUTH_USER, AUTH_USER_ERROR } from '../../actions/types';
+import { AUTH_USER } from '../../actions/types';
 
 class SignIn extends Component {
   onSubmit = async (formValues, dispatch) => {
@@ -15,7 +15,11 @@ class SignIn extends Component {
       dispatch({ type: AUTH_USER, payload: data.token });
       this.props.history.push('/counter');
     } catch (e) {
-      dispatch( { type: AUTH_USER_ERROR, payload: e })
+      throw new SubmissionError({
+        email: 'Incorrect email',
+        password: 'Incorrect password',
+        _error: 'Login failed'
+      });
     }
   }
 
