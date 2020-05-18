@@ -66,16 +66,14 @@ class SignUp extends Component {
 
 const asyncValidate = async ({ email }) => {
   try {
-    const { data } = await axios.get('/api/user/emails');
-    const foundEmail = data.some(user => user.email === email);
-    if (foundEmail) {
+    const { data } = await axios.get(`/api/user/emails?email=${email}`);
+    if (data) {
       throw new Error();
     }
   } catch (e) {
-    // eslint-disable-next-line
-    throw { email: 'That email address is already in use' }
+    throw { email: 'Email is already taken' };
   }
-}
+};
 
 export default reduxForm({
   form: 'SignUp',
