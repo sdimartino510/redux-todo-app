@@ -25,7 +25,7 @@ class SignUp extends Component {
         error={ meta.touched && meta.error }
         icon='user'
         iconPosition='left'
-        autoComplete='off'
+        autoComplete='on'
         placeholder='Email address'
       />
     );
