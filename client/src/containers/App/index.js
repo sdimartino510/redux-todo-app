@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Grid } from 'semantic-ui-react'
 import Counter from './../Counter';
 import AllTodosList from '../AllTodosList';
@@ -21,4 +22,9 @@ class App extends Component {
     )
   }
 }
-export default App;
+
+function mapStateToProps(state) {
+  return { authenticated: state.auth.authenticated }
+}
+
+export default connect(mapStateToProps)(App);
