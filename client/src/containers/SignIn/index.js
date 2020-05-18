@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { Form, Segment, Button } from 'semantic-ui-react';
-import { email, length, required } from 'redux-form-validators';
+import { email, required } from 'redux-form-validators';
 import axios from 'axios';
+import { invalid } from 'moment';
+
 import { AUTH_USER, AUTH_USER_ERROR } from '../../actions/types';
 
-class SignUp extends Component {
+// When the user submits the form, send the formValues to /api/auth/signin
+// set the token coming from data into localStorage under the key 'token'
+// Dispatch the action to the reducer to set the token as the state for authentication
+// Redirect the user to the '/counter' route
+
+class SignIn extends Component {
   onSubmit = async (formValues, dispatch) => {
     try {
-      const { data } = await axios.post('/api/auth/signup', formValues);
+      const { data } = await axios.post('/api/auth/signin', formValues);
       localStorage.setItem('token', data.token);
       dispatch({ type: AUTH_USER, payload: data.token });
       this.props.history.push('/counter');
@@ -53,26 +60,25 @@ class SignUp extends Component {
         <Segment stacked>
           <Field
             name='email'
+            component={ this.renderEmail }
             validate={
               [
                 required({ msg: 'Email is required' }),
                 email({ msg: 'You must provide a valid email address' })
               ]
             }
-            component={ this.renderEmail }
           />
           <Field
             name='password'
+            component={ this.renderPassword }
             validate={
               [
-                required({ msg: 'You must provide a password' }),
-                length({ minimum: 6, msg: 'Your password must be at least 6 characters in length' })
+                required({ msg: 'You must provide a password' })
               ]
             }
-            component={ this.renderPassword }
           />
           <Button
-            content='Sign Up'
+            content='Sign In'
             color='teal'
             fluid
             size='large'
@@ -81,24 +87,8 @@ class SignUp extends Component {
           />
         </Segment>
       </Form>
-    );
+    )
   }
 }
 
-const asyncValidate = async ({ email }) => {
-  try {
-    const { data } = await axios.get(`/api/user/emails?email=${email}`);
-    if (data) {
-      throw new Error();
-    }
-  } catch (e) {
-    // eslint-disable-next-line
-    throw { email: 'Email is already taken' };
-  }
-};
-
-export default reduxForm({
-  form: 'SignUp',
-  asyncValidate,
-  asyncChangeFields: ['email']
-})(SignUp);
+export default reduxForm({ form: 'SignIn' })(SignIn);
