@@ -7,11 +7,6 @@ import { invalid } from 'moment';
 
 import { AUTH_USER, AUTH_USER_ERROR } from '../../actions/types';
 
-// When the user submits the form, send the formValues to /api/auth/signin
-// set the token coming from data into localStorage under the key 'token'
-// Dispatch the action to the reducer to set the token as the state for authentication
-// Redirect the user to the '/counter' route
-
 class SignIn extends Component {
   onSubmit = async (formValues, dispatch) => {
     try {
