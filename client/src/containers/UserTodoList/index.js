@@ -3,12 +3,31 @@ import { reduxForm, Field } from 'redux-form';
 import { Header, Form, Segment, Message, List, Pagination } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import axios from 'axios';
 
 import { getUserTodos } from '../../actions/allTodoActions';
+import { ADD_USER_TODO, ADD_USER_TODO_ERROR } from '../../actions/types';
 
 class UserTodoList extends Component {
   componentDidMount() {
     this.props.getUserTodos()
+  }
+
+  onSubmit = async (formValues, dispatch) => {
+    try {
+      await axios.post('/api/user/todos', formValues, {
+        headers: {
+          'authorization': localStorage.getItem('token')
+        }
+      });
+      dispatch({ type: ADD_USER_TODO });
+      this.props.getUserTodos();
+    } catch (e) {
+      dispatch({ 
+        type: ADD_USER_TODO_ERROR,
+        payload: 'You must provide text' 
+      });
+    }
   }
 
   renderAddTodo = ({ input, meta }) => {
@@ -23,10 +42,11 @@ class UserTodoList extends Component {
   }
 
   render() {
+    const { handleSubmit } = this.props;
     return (
       <>
         <Header as='h2' color='teal' textAlign='center' content='Welcome to the todo app' />
-        <Form size='large'>
+        <Form size='large' onSubmit={ handleSubmit(this.onSubmit) }>
           <Segment stacked>
             <Field
               name='text'
