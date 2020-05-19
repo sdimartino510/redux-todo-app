@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import axios from 'axios';
 
-import { getUserTodos } from '../../actions/allTodoActions';
+import { getUserTodos, updateCompleteUserTodoById } from '../../actions/allTodoActions';
 import { ADD_USER_TODO, ADD_USER_TODO_ERROR } from '../../actions/types';
 
 import UserTodoListItems from './UserTodoListItems';
@@ -76,7 +76,10 @@ class UserTodoList extends Component {
             />
           </Segment>
           <List animated divided selection>
-            <UserTodoListItems todos={ this.props.userTodos.slice(this.state.start, this.state.end) } />
+            <UserTodoListItems 
+              todos={ this.props.userTodos.slice(this.state.start, this.state.end) } 
+              handleUpdate = { this.props.updateCompleteUserTodoById }
+            />
           </List>
           { this.props.userTodos.length === 0 ?
             null :
@@ -103,5 +106,5 @@ function mapStateToProps(state) {
 
 export default compose(
   reduxForm({ form: 'addTodo' }),
-  connect(mapStateToProps, { getUserTodos })
+  connect(mapStateToProps, { getUserTodos, updateCompleteUserTodoById })
 )(UserTodoList);
