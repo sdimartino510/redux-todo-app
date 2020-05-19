@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { Header, Form, Segment, Message, List, Pagination } from 'semantic-ui-react';
+import { Header, Form, Segment, Message, List, Pagination, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import axios from 'axios';
 
 import { getUserTodos } from '../../actions/allTodoActions';
 import { ADD_USER_TODO, ADD_USER_TODO_ERROR } from '../../actions/types';
+
+import userTodoListItems from './UserTodoListItems';
+import UserTodoListItems from './UserTodoListItems';
 
 class UserTodoList extends Component {
   componentDidMount() {
@@ -52,7 +55,16 @@ class UserTodoList extends Component {
               name='text'
               component={ this.renderAddTodo }
             />
+            <Button 
+              type='submit' 
+              fluid 
+              color='teal' 
+              content='Add a todo' 
+            />
           </Segment>
+          <List animated divided selection>
+            <UserTodoListItems todos={ this.props.userTodos } />
+          </List>
         </Form>
       </>
     );
