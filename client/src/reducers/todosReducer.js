@@ -5,7 +5,8 @@ import {
   GET_USER_TODOS_ERROR,
   ADD_USER_TODO,
   ADD_USER_TODO_ERROR,
-  UPDATE_TODO_BY_ID_ERROR
+  UPDATE_TODO_BY_ID_ERROR,
+  DELETE_TODO_BY_ID_ERROR
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -15,7 +16,8 @@ const INITIAL_STATE = {
   getUserTodosServerError: '',
   getUserTodosClientError: '',
   addTodoError: '',
-  updateTodoCompleteError: ''
+  updateTodoCompleteError: '',
+  deleteTodoError: ''
 }
 
 export default function(state = INITIAL_STATE, action) {
@@ -25,7 +27,7 @@ export default function(state = INITIAL_STATE, action) {
     case GET_ALL_TODOS_ERROR:
       return { ...state, getAllTodosError: action.payload }
     case GET_USER_TODOS:
-      return { ...state, userTodos: action.payload, getUserTodosClientError: '', getUserTodosServerError: '', updateTodoCompleteError: '' }
+      return { ...state, userTodos: action.payload, getUserTodosClientError: '', getUserTodosServerError: '', updateTodoCompleteError: '', deleteTodoError: '' }
     case GET_USER_TODOS_ERROR:
       return { ...state, getUserTodosClientError: action.clientError, getUserTodosServerError: action.serverError }
     case UPDATE_TODO_BY_ID_ERROR:
@@ -34,6 +36,8 @@ export default function(state = INITIAL_STATE, action) {
       return { ...state, addTodoError: '' }
     case ADD_USER_TODO_ERROR:
       return { ...state, addTodoError: action.payload }
+    case DELETE_TODO_BY_ID_ERROR:
+      return { ...state, deleteTodoError: action.payload }
     default:
       return state;
   }
