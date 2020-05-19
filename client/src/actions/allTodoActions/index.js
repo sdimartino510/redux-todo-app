@@ -24,8 +24,7 @@ export const getUserTodos = () => async dispatch => {
     dispatch({ type: GET_USER_TODOS_ERROR, serverError: e, clientError: 'Something went wrong. Refresh the page and try again' });
   }
 }
-export const updateCompleteUserTodoById = (e,id, completed, text) => async dispatch => {
-  e.stopPropagation();
+export const updateCompleteUserTodoById = (id, completed, text) => async dispatch => {
   try {
     await axios.put(`/api/user/todos/${id}`, { completed: !completed, text}, { headers: { 'authorization': localStorage.getItem('token') }});
     const { data } = await axios.get('/api/user/todos', { headers: { 'authorization': localStorage.getItem('token') }});
