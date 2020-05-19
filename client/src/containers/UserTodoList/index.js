@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { Header, Form, Segment, Message, List, Pagination, Button } from 'semantic-ui-react';
+import { Header, Form, Segment, List, Pagination, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import axios from 'axios';
@@ -75,20 +75,21 @@ class UserTodoList extends Component {
               content='Add a todo' 
             />
           </Segment>
-          <List animated divided selection>
-            <UserTodoListItems 
-              todos={ this.props.userTodos.slice(this.state.start, this.state.end) } 
-              handleUpdate = { this.props.updateCompleteUserTodoById }
-            />
-          </List>
-          { this.props.userTodos.length === 0 ?
-            null :
-            <Pagination
-              totalPages={ Math.ceil(this.props.userTodos.length / 10) }
-              activePage={ this.state.activePage }
-              onPageChange={ (e, data) => this.handlePageChange(e, data) }
-            />}
         </Form>
+        <List animated divided selection>
+          <UserTodoListItems 
+            todos={ this.props.userTodos.slice(this.state.start, this.state.end) } 
+            handleUpdate = { this.props.updateCompleteUserTodoById }
+          />
+        </List>
+        { this.props.userTodos.length === 0 ?
+          null :
+          <Pagination
+            totalPages={ Math.ceil(this.props.userTodos.length / 10) }
+            activePage={ this.state.activePage }
+            onPageChange={ (e, data) => this.handlePageChange(e, data) }
+          />
+        }
       </>
     );
   }
