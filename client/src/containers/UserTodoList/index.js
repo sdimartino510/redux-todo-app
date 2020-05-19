@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import axios from 'axios';
 
+import requireAuth from './../../hoc/requireAuth';
+
 import { getUserTodos, updateCompleteUserTodoById, deleteTodoById } from '../../actions/allTodoActions';
 import { ADD_USER_TODO, ADD_USER_TODO_ERROR } from '../../actions/types';
 
@@ -106,7 +108,9 @@ function mapStateToProps(state) {
 
 // export default reduxForm({ form: 'addTodo' })(connect(mapStateToProps, { getUserTodos })(UserTodoList));
 
-export default compose(
+const composedComponent = compose(
   reduxForm({ form: 'addTodo' }),
   connect(mapStateToProps, { getUserTodos, updateCompleteUserTodoById, deleteTodoById })
 )(UserTodoList);
+
+export default requireAuth(composedComponent);
