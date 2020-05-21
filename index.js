@@ -7,7 +7,11 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-// Setup middlewares
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+}
+
+// Setup middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(routes);
